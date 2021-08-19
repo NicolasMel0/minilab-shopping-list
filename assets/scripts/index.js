@@ -1,31 +1,39 @@
+const addBtnElement = document.getElementById("addBtn");
+const descriptionInputElement = document.getElementById("formDescription");
+const transactionListElement = document.getElementById("ul");
 
-
-let addItem = function(){
-
-  let $input = $("submission-line_input").val();
-
-  if ($input){
-    $(".list").padStart("<li class=list-group-item d-flex justify-content-between>" +
-    input + "<button class=btn btn btn-danger>-</button>");
-
-  }
-
-    $(".submission-line__input").val("");
-
-
-
+function createListItem(description) {
+  const li = `<li class="list-group-item d-flex justify-content-between">
+    ${description} <button class="btn btn btn-danger">-</button>
+  </li>`;
+  return li;
 }
 
+function updateList(listItem) {
+  transactionListElement.insertAdjacentHTML("beforeend", listItem);
+}
 
-$('.submission-line__btn').on('click', function(event){
+function clearForm() {
+  descriptionInputElement.value = "";
+}
+addBtnElement.addEventListener("click", () => {
+  const description = descriptionInputElement.value;
+  console.log(description);
 
-  event.preventDefault();
-  
-  addItem();
+  if (!description) {
+    return;
+  }
+  const li = createListItem(description);
+  updateList(li);
+  clearForm();
 });
 
 
-//em andamento não consigui terminar no dia. 
+document.addEventListener("click", (event) => {
 
-//aceito dicas 
-
+  if (event.target.innerText === "-") {
+    const li = event.target.parentElement;
+    transactionListElement.removeChild(li);
+    console.log(li);
+  }
+});
